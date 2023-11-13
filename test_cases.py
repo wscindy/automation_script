@@ -1,24 +1,19 @@
-import requests
 import pytest
+import requests
 
 target_api = 'https://pokeapi.co/api/v2/pokemon/'
 
 
-def get_item_id(id):
-    response = requests.get(target_api + id)
+def test_01():
+    response = requests.get(target_api + str(6))
     if response.status_code == 200:
         data = response.json()['name']
         print(f'✅ 第一題：\nMonster id: {data}')
+        assert data == 'charizard'
     else:
         return print(f'Error: {response.status_code}')
 
-
-get_item_id(str(6))
-
-
-# 列出 id < 20, id > 0 的寶可夢名稱（name）以及其寶可夢的屬性（types），依照 id 由小至大排序
-
-def get_ids():
+def test_02():
     print('✅ 第二題：')
     for id in range(1, 21):
 
@@ -30,14 +25,10 @@ def get_ids():
         else:
             return print(f'Error: {response.status_code}')
 
-
-get_ids()
-
-
-# 列出 id < 100, id > 0 的寶可夢中，體重（weight） < 50 的寶可夢名稱（name）及寶可夢體重（weight），並且依照體重由大至小排序
+    assert 'raticate' in data_name
 
 
-def get_ids_02():
+def test_03():
     print('✅ 第三題：')
     pokeMon = []
     for id in range(1, 101):
@@ -52,7 +43,6 @@ def get_ids_02():
         else:
             return print(f'Error: {response.status_code}')
     pokeMon.sort(key=lambda pokeMon: pokeMon[1], reverse=True)
+    assert pokeMon[0][0] == "meowth"
+    assert pokeMon[0][1] == 42
     print(pokeMon)
-
-
-get_ids_02()
